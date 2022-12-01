@@ -19,13 +19,10 @@ public class ReqresInTests {
         int id = 2;
 
         given()
-                .spec(Request.spec())
-                .log().uri().
+                .spec(Request.spec()).
                 when().
                 get("/api/users/{id}", id).
                 then()
-                .log().status()
-                .log().body()
                 .statusCode(200)
                 .body("data.id", is(id));
     }
@@ -36,13 +33,10 @@ public class ReqresInTests {
         int pageNumber = 2;
 
         given()
-                .spec(Request.spec())
-                .log().uri().
+                .spec(Request.spec()).
                 when().
                 get("/api/users?page={pageNumber}", pageNumber).
                 then()
-                .log().status()
-                .log().body()
                 .statusCode(200)
                 .body("data.findAll {it.id == 7 }.email", hasItem("michael.lawson@reqres.in"));
     }
@@ -53,30 +47,25 @@ public class ReqresInTests {
         int id = 32;
 
         given()
-                .spec(Request.spec())
-                .log().uri().
+                .spec(Request.spec()).
                 when().
                 get("/api/users/{id}", id).
                 then()
-                .log().status()
-                .log().body()
                 .statusCode(404);
     }
 
     @Test
     @DisplayName("Позитив – создать юзера")
     void createUserSuccess() {
-        user.setName("TestName").setJob("TestJob");
+        user.setName("TestName");
+        user.setJob("TestJob");
 
         given()
-                .spec(Request.spec())
-                .log().uri().
+                .spec(Request.spec()).
                 body(user).
                 when().
                 post("/api/users").
                 then()
-                .log().status()
-                .log().body()
                 .statusCode(201)
                 .body("name", is(user.getName()))
                 .body("job", is(user.getJob()));
@@ -89,13 +78,10 @@ public class ReqresInTests {
         int id = 2;
 
         given()
-                .spec(Request.spec())
-                .log().uri().
+                .spec(Request.spec()).
                 when().
                 get("/api/users/{id}", id).
                 then()
-                .log().status()
-                .log().body()
                 .statusCode(200)
                 .body(matchesJsonSchemaInClasspath("user-schema.json"));
     }
